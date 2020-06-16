@@ -61,8 +61,12 @@ public class ConfigServer {
         @Override
         public void call(ConfigurationRequest req, StreamObserver<ConfigurationResponse> responseObserver){
             String name = "alarm.default.alarm-settings";
+
+
+            //测试同一个指标 同一个服务，不同阈值的冲突情况。
+            //测试结果：会采用第一条规则
             String value = "rules:\n" +
-                    "  service_resp_time_rule:\n" +
+                    "  service_resp_time3_rule:\n" +
                     "    metrics-name: service_resp_time\n" +
                     "    include-names: \n" +
                     "        - 36-dc-job-test\n" +
@@ -71,7 +75,17 @@ public class ConfigServer {
                     "    period: 10\n" +
                     "    count: 1\n" +
                     "    silence-period: 5\n" +
-                    "    message: dynamic alarm test.";
+                    "    message: dynamic alarm test3.\n" +
+                    "  service_resp_time4_rule:\n" +
+                    "    metrics-name: service_resp_time\n" +
+                    "    include-names: \n" +
+                    "        - 36-dc-job-test\n" +
+                    "    op: \">\"\n" +
+                    "    threshold: 4\n" +
+                    "    period: 10\n" +
+                    "    count: 1\n" +
+                    "    silence-period: 5\n" +
+                    "    message: dynamic alarm test4.";
             System.out.println("cluster: "+req.getClusterName());
             System.out.println("uuid: "+req.getUuid());
 
